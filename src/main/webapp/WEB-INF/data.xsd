@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://guorui.cn"
+        elementFormDefault="qualified">
+    <!--targetNamespace 声明约束文档的命名空间 -->
+    <element name="书架">    <!-- 根标签为<书架> -->
+        <!-- 声明<书架>的子标签，子标签类型为复杂类型 -->
+        <complexType>
+            <!-- 声明<书架>的子标签<书>可以有多个 -->
+            <sequence maxOccurs="unbounded">
+                <element name="书">
+                    <!-- 声明<书>的子标签，子标签类型为复杂类型 -->
+                    <complexType>
+                        <sequence>
+                            <element name="书名" type="string"/>  <!-- 声明标签的名称和数据类型 -->
+                            <element name="作者" type="string"/>
+                            <element name="售价" type="double"/>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>
