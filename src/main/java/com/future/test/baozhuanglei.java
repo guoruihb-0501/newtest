@@ -30,6 +30,7 @@ public class baozhuanglei {
             System.out.println(arr);
             System.out.println("ok1");
             System.out.println("ok2");
+            System.out.println("ok3");
         }
     }
 
