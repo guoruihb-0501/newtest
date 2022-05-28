@@ -29,6 +29,7 @@ public class baozhuanglei {
         }else{
             System.out.println(arr);
             System.out.println("ok1");
+            System.out.println("ok2");
         }
     }
 
