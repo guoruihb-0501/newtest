@@ -31,7 +31,7 @@ public class baozhuanglei {
             System.out.println("ok1");
             System.out.println("ok2");
             System.out.println("ok3");
-            System.out.println("master modify");
+            System.out.println("master modify1");
 
         }
     }
