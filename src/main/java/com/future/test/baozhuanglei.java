@@ -32,7 +32,7 @@ public class baozhuanglei {
             System.out.println("ok2");
             System.out.println("ok3");
             System.out.println("dev modify");
-            System.out.println("master modify1");
+            System.out.println("dev modify1");
 
         }
     }
