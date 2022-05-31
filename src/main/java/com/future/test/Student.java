@@ -6,10 +6,15 @@ import java.util.Objects;
  * @author guorui
  * @create 2022-05-02-11:45
  */
-public class Student {
+public class Student{
     private String name;
     private char sex;
     private int age;
+
+    public Student(String name) {
+        this.name = name;
+    }
+
     private String className;
     private String hobby;
 
@@ -91,4 +96,6 @@ public class Student {
     public void setHobby(String hobby) {
         this.hobby = hobby;
     }
+
+
 }
