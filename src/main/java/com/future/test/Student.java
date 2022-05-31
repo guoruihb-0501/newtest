@@ -7,6 +7,10 @@ import java.util.Objects;
  * @create 2022-05-02-11:45
  */
 public class Student {
+    public Student(String name) {
+        this.name = name;
+    }
+
     private String name;
     private char sex;
     private int age;
