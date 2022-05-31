@@ -1,6 +1,5 @@
 package com.future.test;
 
-import sun.misc.PostVMInitHook;
 
 /**
  * @author guorui
