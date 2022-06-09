@@ -51,8 +51,5 @@ public class FileOutputStreamDemo1 {
         fos3.write("\r\n".getBytes());
         fos3.close();
 
-
-
-
     }
 }
