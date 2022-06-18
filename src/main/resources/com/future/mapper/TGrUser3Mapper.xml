@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.future.mapper.TGrUser3Mapper">
+    <!--解决方法2：使用resultMap标签进行转换-->
+    <resultMap id="TGrUser3ResultMap" type="com.future.test.TGrUser3">
+        <!-- 如果有主键需要映射，需要使用id标签而不是result标签
+        <id column="user_id" property="userId"/>
+        -->
+        <result column="user_name" property="userName"/>
+        <result column="user_money" property="userMoney"/>
+        <result column="user_birthday" property="userBirthday"/>
+    </resultMap>
+
+    <resultMap id="resultMap3" type="com.future.test.RqInfo">
+        <result property="rq" column="rq"/>
+        <result property="week" column="week"/>
+        <result property="dayYearSeq" column="day_year_seq"/>
+    </resultMap>
+
+    <!--<select id="selectAll" resultType="com.future.test.TGrUser3">-->
+    <select id="selectAll" resultMap="TGrUser3ResultMap">
+        <!--select id,user_name,user_money,user_birthday-->
+        select *
+        <!--解决方法1：列名转换-->
+        <!--select id,user_name as userName,user_money as userMoney,user_birthday as userBirthday-->
+          from t_gr_user3
+    </select>
+
+    <select id="selectById" resultMap="TGrUser3ResultMap">
+        select *
+          from t_gr_user3
+         where id = #{id}
+         <!--
+             方法1：#{}会将参数转换为？然后根据参数内容替换？会避免sql注入问题 所以where条件推荐使用#{}方式
+             方法2：${}会采用拼接sql字符串的方式，容易造成sql注入，但是如果表名，列名是动态的，可以采用${}方式，例如select id,name from ${tableName}
+         -->
+    </select>
+    <select id="selectByCondition1" resultMap="TGrUser3ResultMap">
+        select *
+          from t_gr_user3
+         where id &lt; #{id}
+         <!--
+         常用转义字符
+             &                            &amp;
+             <                            &lt;
+             >                            &gt;
+             "                            &quot;  //双引号
+             '                            &apos;  //单引号
+           a<=b                     a &lt;=b 或者 a <![CDATA[<= ]]>b
+           a>=b                     a &gt;=b 或者 a <![CDATA[>= ]]>b
+           a!=b                        a <![CDATA[ <> ]]>b 或者 a <![CDATA[!= ]]>b
+         -->
+
+    </select>
+    <select id="delSb" parameterType="map" statementType="CALLABLE" resultType="java.lang.Object">
+            <![CDATA[
+                {call bfill.sp_delsb(
+                #{vsbid,mode=IN,jdbcType=VARCHAR},
+                #{vsbdate,mode=IN,jdbcType=DATE},
+                #{ret,mode=OUT,jdbcType=INTEGER},
+                #{rinfo,mode=OUT,jdbcType=VARCHAR}
+                )}
+              ]]>
+    </select>
+    <select id="getRqInfo" parameterType="map" statementType="CALLABLE" resultType="java.lang.Object">
+            <![CDATA[
+                {call bfill.sp_getrqinfo(
+                #{vsdate,mode=IN,jdbcType=VARCHAR},
+                #{vedate,mode=IN,jdbcType=VARCHAR},
+                #{ret,mode=OUT,jdbcType=INTEGER},
+                #{rcur,mode=OUT,jdbcType=CURSOR,javaType=ResultSet, resultMap=resultMap3}
+                )}
+              ]]>
+    </select>
+    <select id="selectByCondition2" resultMap="TGrUser3ResultMap">
+        select *
+          from t_gr_user3
+         <!-- where 1 = 1 -->
+         <where>
+             <if  test="minDate != null">
+                 and user_birthday <![CDATA[ >= ]]> #{minDate}
+             </if>
+             <if  test="maxDate != null">
+                 and user_birthday <![CDATA[ <= ]]> #{maxDate}
+             </if>
+             <if  test="id != null">
+                 and id &lt; #{id}
+             </if>
+             <if  test="userName != null and userName != ''">
+                 and user_name like #{userName}
+             </if>
+             <!--
+                多选一条件查询见视频https://www.bilibili.com/video/BV1Qf4y1T7Hx?p=56 第12分钟到第22分30秒
+                使用choose(when otherwise)标签
+                或者见官方文档 https://mybatis.org/mybatis-3/zh/dynamic-sql.html
+             -->
+        </where>
+    </select>
+</mapper>

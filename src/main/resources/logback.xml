@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+ 
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 如果记录System信息意味着将在控制台输出 logback本身的info级别以上的日志，去掉这个，则只输出程序自身的输出日志 -->
+		<!-- <target>System.info</target> -->
+		<encoder>
+            <!--%d 日志的日期信息-->
+            <!--%level 日志级别-->
+            <!--%c 类-->
+            <!--%thread 线程信息-->
+            <!--%msg 日志信息-->
+            <!--%n 换行-->
+		    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %c [%thread] : %msg%n</pattern>
+        </encoder>
+    </appender>
+ 
+    <!-- ERROR 日志记录器，日期滚动记录 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+ 
+ 		<encoder>
+		    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] - %msg%n</pattern>
+			<charset>utf-8</charset>
+        </encoder>
+		<file>/logback1.log</file>
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+             <!-- 归档的日志文件的路径，%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>/logback-data-%d{yyyy-MM-dd}.log%i.gz</fileNamePattern>
+            <!--maxFileSize 日志文件最大尺寸-->
+            <maxFileSize>1MB</maxFileSize>
+        </rollingPolicy>
+     </appender>
+
+
+    <root level="info">    <!-- 日志级别和起作用的地方，本例中在控制台和文件中起作用 -->
+		<appender-ref ref="CONSOLE"/>
+		<appender-ref ref="FILE"/>
+    </root>
+
+</configuration>
